@@ -53,18 +53,23 @@ func showStatus() {
 	fmt.Printf("now playing: %s\n", status.Main.NowPlaying)
 	fmt.Printf("dj: %s | listeners: %d\n", status.Main.DJ.Name, status.Main.Listeners)
 
-	if len(status.Main.Queue) > 0 {
-		fmt.Println("\nqueue:")
-		for i, track := range status.Main.Queue {
-			if i >= 5 {
-				break
-			}
-			marker := "auto"
-			if track.Type == 1 {
-				marker = "req"
-			}
-			fmt.Printf("  %d. [%s] %s\n", i+1, marker, track.MetaData)
+	renderQueue(status.Main.Queue)
+}
+
+func renderQueue(queue []models.Track) {
+	if len(queue) == 0 {
+		return
+	}
+	fmt.Println("\nqueue:")
+	for i, track := range queue {
+		if i >= 5 {
+			break
 		}
+		marker := "auto"
+		if track.Type == 1 {
+			marker = "req"
+		}
+		fmt.Printf("  %d. [%s] %s\n", i+1, marker, track.MetaData)
 	}
 }
 
@@ -80,18 +85,31 @@ func handleSearch(scanner *bufio.Scanner) {
 	}
 
 	results, err := api.Search(query)
+	if err != nil || results.Total == 0 {
+		handleSearchError(err, results)
+		return
+	}
+
+	displaySearchResults(results)
+
+	fmt.Print("\n[number] request | [a number] add to cart | [b] back\n> ")
+	if !scanner.Scan() {
+		return
+	}
+
+	processSearchSelection(scanner.Text(), results, query)
+}
+
+func handleSearchError(err error, results *models.SearchResponse) {
 	if err != nil {
 		fmt.Printf("search failed: %v\n", err)
-		time.Sleep(time.Second)
-		return
-	}
-
-	if results.Total == 0 {
+	} else {
 		fmt.Println("no results")
-		time.Sleep(time.Second)
-		return
 	}
+	time.Sleep(time.Second)
+}
 
+func displaySearchResults(results *models.SearchResponse) {
 	limit := results.Total
 	if limit > 10 {
 		limit = 10
@@ -106,39 +124,43 @@ func handleSearch(scanner *bufio.Scanner) {
 		}
 		fmt.Printf("[%d] %s - %s [%s]\n", i+1, song.Artist, song.Title, status)
 	}
+}
 
-	fmt.Print("\n[number] request | [a number] add to cart | [b] back\n> ")
-	if !scanner.Scan() {
-		return
-	}
-
-	input := strings.TrimSpace(scanner.Text())
+func processSearchSelection(input string, results *models.SearchResponse, query string) {
+	input = strings.TrimSpace(input)
 	if input == "b" || input == "" {
 		return
 	}
 
 	parts := strings.Fields(input)
 	if len(parts) == 2 && parts[0] == "a" {
-		idx, err := strconv.Atoi(parts[1])
-		if err != nil || idx < 1 || idx > len(results.Data) {
-			fmt.Println("invalid number")
-			time.Sleep(time.Second)
-			return
-		}
-		cart = append(cart, results.Data[idx-1])
-		fmt.Println("added to cart")
-		time.Sleep(time.Second)
+		addToCart(parts[1], results.Data)
 		return
 	}
 
-	idx, err := strconv.Atoi(input)
-	if err != nil || idx < 1 || idx > len(results.Data) {
+	performImmediateRequest(input, results.Data, query)
+}
+
+func addToCart(indexStr string, songs []models.Song) {
+	idx, err := strconv.Atoi(indexStr)
+	if err != nil || idx < 1 || idx > len(songs) {
+		fmt.Println("invalid number")
+	} else {
+		cart = append(cart, songs[idx-1])
+		fmt.Println("added to cart")
+	}
+	time.Sleep(time.Second)
+}
+
+func performImmediateRequest(indexStr string, songs []models.Song, query string) {
+	idx, err := strconv.Atoi(indexStr)
+	if err != nil || idx < 1 || idx > len(songs) {
 		fmt.Println("invalid number")
 		time.Sleep(time.Second)
 		return
 	}
 
-	song := results.Data[idx-1]
+	song := songs[idx-1]
 	fmt.Printf("requesting %s - %s...\n", song.Artist, song.Title)
 
 	if api.SubmitRequest(song, query) {
