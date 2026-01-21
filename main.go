@@ -1,3 +1,4 @@
+// Package main is the entry point for the radiogo CLI.
 package main
 
 import (
@@ -40,7 +41,7 @@ func main() {
 	}
 }
 
-// Fetch then display the current r-a-d.io station.
+// showStatus fetches then displays the current r-a-d.io station state.
 func showStatus() {
 	status, err := api.FetchStatus()
 	if err != nil {
@@ -62,7 +63,7 @@ func showStatus() {
 			if track.Type == 1 {
 				marker = "req"
 			}
-			fmt.Printf("  %d. [%s] %s\n", i+1, marker, track.MetaData)
+			fmt.Printf("  %d. [%s] %s\n", i+1, marker, track.MetaData)
 		}
 	}
 }
@@ -175,8 +176,7 @@ func handleCart(scanner *bufio.Scanner) {
 	}
 }
 
-// Read cart then submit reqs and delay to prevent ip flagging.
-// After testing it, using no rate limits here ironically still works anyway...
+// sendAll reads the cart then submits requests and delays to prevent IP flagging.
 func sendAll() {
 	total := len(cart)
 	sent := 0
@@ -191,7 +191,7 @@ func sendAll() {
 		} else {
 			fmt.Println("[ERR]")
 		}
-		time.Sleep(500 * time.Millisecond) // Can be removed.
+		time.Sleep(500 * time.Millisecond)
 	}
 
 	fmt.Printf("\ncompleted: %d/%d\n", sent, total)
