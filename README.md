@@ -1,4 +1,5 @@
-# r-a-d.io-infinite [![Go Report Card](https://goreportcard.com/badge/github.com/sethispr/r-a-dio-go)](https://goreportcard.com/report/github.com/sethispr/r-a-dio-go) [![Go Version](https://img.shields.io/github/go-mod/go-version/sethispr/r-a-dio-go)](https://golang.org/doc/devel/release.html)
+# r-a-d.io-infinite 
+[![Go Report Card](https://goreportcard.com/badge/github.com/sethispr/r-a-dio-go)](https://goreportcard.com/report/github.com/sethispr/r-a-dio-go) [![Go Version](https://img.shields.io/github/go-mod/go-version/sethispr/r-a-dio-go)](https://golang.org/doc/devel/release.html)
 
 Barebones implementation for infinite [r-a-d.io](https://r-a-d.io/search) song requests bypassing the 30 minute request limit (please use responsibly), this cli simply [gets proxies](https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt) > reads the site source code and scrape the amazing one time [gorilla/csrf](https://github.com/gorilla/csrf) token and tricks the server to accept your song requests. **qol features may be worked on soon.**
 
