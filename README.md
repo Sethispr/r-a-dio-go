@@ -1,15 +1,56 @@
-# r-a-d.io-infinite 
+# r-a-dio-go
+
 [![Go Report Card](https://goreportcard.com/badge/github.com/sethispr/r-a-dio-go)](https://goreportcard.com/report/github.com/sethispr/r-a-dio-go) [![Go Version](https://img.shields.io/github/go-mod/go-version/sethispr/r-a-dio-go)](https://golang.org/doc/devel/release.html)
 
-Barebones implementation for infinite [r-a-d.io](https://r-a-d.io/search) song requests bypassing the 30 minute request limit (please use responsibly), this cli simply [gets proxies](https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt) > reads the site source code and scrape the amazing one time [gorilla/csrf](https://github.com/gorilla/csrf) token and tricks the server to accept your song requests. **qol features may be worked on soon.**
+Barebones implementation for infinite [r-a-d.io](https://r-a-d.io/search) song requests bypassing the 30 minute request limit (please use responsibly), this cli simply [gets proxies](https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt) then reads the site source code and scrape the amazing one time [gorilla/csrf](https://github.com/gorilla/csrf) token and tricks the server to accept your song requests.
 
 - utilizes go's awesome concurrency to verify proxies
 - stateless networking net/http which disposes each request making it fresh
 - regex to get csrf token and store it in cookiejar
 - inject POST request with stolen token, song id and spoofed Referer headers
 
-## Disclaimer
+---
 
+## Installation
+
+```bash
+go install github.com/sethispr/r-a-dio-go@latest
+```
+
+## Build from source
+
+### Prerequisites
+
+* **Go**: Ensure you have Go installed (1.25+ recommended). Check with `go version`.
+* **Git**: To clone the repo.
+
+1. **Clone the repo**
+
+```bash
+git clone https://github.com/sethispr/r-a-dio-go.git
+cd r-a-dio-go
+```
+
+2. **Build the executable**
+
+```bash
+go build .
+```
+
+### Usage
+
+Run the compiled binary from your terminal:
+
+```bash
+r-a-dio-go
+```
+
+> [!NOTE]
+> For precompiled binaries for different OS architectures, check the [Releases](https://www.google.com/search?q=https://github.com/sethispr/r-a-dio-go/releases) repo page.
+
+---
+
+### Disclaimer
 This tool is for educational and research purposes only. By using this software, you acknowledge that:
 
 sethispr does not condone or support the malicious spamming of community-run services.
