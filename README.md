@@ -4,7 +4,7 @@
 
 Barebones implementation for bypassing [r-a-d.io](https://r-a-d.io/search)'s 30 minute request limit. ([see note](https://github.com/Sethispr/r-a-dio-go/blob/main/README.md#note))
 
-This cli [gets proxies](https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt) then reads the site source code and scrape the amazing one time [gorilla/csrf](https://github.com/gorilla/csrf) token and tricks the server to accept your song request.
+This cli [gets proxies](https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt) then reads the site source code and scrape the one time [gorilla/csrf](https://github.com/gorilla/csrf) token and tricks the server to accept your song request.
 
 - go's concurrency can verify proxies and go through all song reqs in less than a second
 - stateless networking net/http which disposes each request making it fresh
