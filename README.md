@@ -2,7 +2,9 @@
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/sethispr/r-a-dio-go)](https://goreportcard.com/report/github.com/sethispr/r-a-dio-go) [![Go Version](https://img.shields.io/github/go-mod/go-version/sethispr/r-a-dio-go)](https://golang.org/doc/devel/release.html)
 
-Barebones implementation for infinite [r-a-d.io](https://r-a-d.io/search) song requests bypassing the 30 minute request limit ([see note](https://github.com/Sethispr/r-a-dio-go/blob/main/README.md#note)), this cli simply [gets proxies](https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt) then reads the site source code and scrape the amazing one time [gorilla/csrf](https://github.com/gorilla/csrf) token and tricks the server to accept your song requests.
+Barebones implementation for bypassing [r-a-d.io](https://r-a-d.io/search)'s 30 minute request limit. ([see note](https://github.com/Sethispr/r-a-dio-go/blob/main/README.md#note))
+
+This cli [gets proxies](https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt) then reads the site source code and scrape the amazing one time [gorilla/csrf](https://github.com/gorilla/csrf) token and tricks the server to accept your song request.
 
 - go's concurrency can verify proxies and go through all song reqs in less than a second
 - stateless networking net/http which disposes each request making it fresh
