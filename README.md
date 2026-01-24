@@ -1,4 +1,4 @@
-# r-a-dio-go
+# r-a-dio-go (in development, new qol soon)
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/sethispr/r-a-dio-go)](https://goreportcard.com/report/github.com/sethispr/r-a-dio-go) [![Go Version](https://img.shields.io/github/go-mod/go-version/sethispr/r-a-dio-go)](https://golang.org/doc/devel/release.html)
 
