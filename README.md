@@ -57,5 +57,5 @@ You assume all risks associated with bypassing rate limits or automated scraping
 ### Note
 
 > [!WARNING]
-> The staff or anyone with admin can just remove all your spammed songs from queue wasting the song cd.
+> The staff or anyone with admin can just remove all your spammed songs from queue also wasting the song's cd.
 > Use this cli in a resepectable or non suspicious way so your songs don't just get removed.
